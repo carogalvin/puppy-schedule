@@ -77,8 +77,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer id="drawer" slot="drawer">
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="dataEntry" href="[[rootPath]]data-entry">Data Entry</a>
-          <a name="statsPage" href="[[rootPath]]stats-page">Stats Page</a>
+          <a name="dataEntry" href="[[rootPath]]dataEntry">Data Entry</a>
+          <a name="statsPage" href="[[rootPath]]statsPage">Stats Page</a>
         </iron-selector>
       </app-drawer>
 
@@ -134,7 +134,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // Get root pattern for app-route, for more info about `rootPath` see:
         // https://www.polymer-project.org/2.0/docs/upgrade#urls-in-templates
         this.rootPattern = (new URL(this.rootPath)).pathname;
+        console.log('rootpattern ' + this.rootPattern);
       }
+
 
       _routePageChanged(page) {
         // Polymer 2.0 will call with `undefined` on initialization.
@@ -146,7 +148,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // If no page was found in the route data, page will be an empty string.
         // Deault to 'view1' in that case.
         this.page = page || 'dataEntry';
-        console.log(page);
+        console.log('page ' + page);
 
         // Close a non-persistent drawer when the page & route are changed.
         if (!this.$.drawer.persistent) {
@@ -156,7 +158,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _pageChanged(page) {
         console.log(page + ' is loading');
-        var resolvedPageUrl = this.resolveUrl(page + '.html');
+        var loc = 'data-entry';
+        if(page === 'statsPage') loc = 'stats-page';
+        var resolvedPageUrl = this.resolveUrl(loc + '.html');
 
         Polymer.importHref(
             resolvedPageUrl,
