@@ -1,0 +1,16 @@
+Puppy App
+
+Front end: polymer
+Back end: Firebase
+
+steps:
+Y-scaffold stack
+Y-create a "peed" button which, when pressed, will add a "peed" event to firebase
+-create the "last time peed" element, which will fetch the last instance of the "peed" event from the database and return the time it happened
+-create the "update event" form, which will fetch the last 5 events and allow editing to happen
+-create the "delete event" form, which will fetch the last 5 events and allow deleting to happen
+-repeat for pooped
+-repeat for meal
+
+-auth
+-lazy load events when getting, updating, or deleting
