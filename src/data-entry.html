@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 
 <link rel="import" href="shared-styles.html">
 
@@ -15,6 +16,7 @@
     </style>
 
     <paper-button raised on-tap="_handlePeedEvent">Peed</paper-button>
+    <paper-button raised on-tap="_handlePoopedEvent">Pooped</paper-button>
     <firebase-document
       id="document"
       app-name="puppyscheduler"
@@ -28,9 +30,13 @@
       static get is() { return 'data-entry'; }
 
       _handlePeedEvent(e) {
-        console.log('clicked peed button!');
         this.eventPath = '/events/' + Date.now().toString();
         this.eventData = {action: "peed"};
+      }
+
+      _handlePoopedEvent(e) {
+        this.eventPath = '/events/' + Date.now().toString();
+        this.eventData = {action: "pooped"};
       }
     }
 
