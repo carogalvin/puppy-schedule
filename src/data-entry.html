@@ -16,6 +16,7 @@
     </style>
 
     <paper-button raised on-tap="_handlePeedEvent">Peed</paper-button>
+    <paper-button raised on-tap="_handlePoopedEvent">Pooped</paper-button>
     <firebase-document
       id="document"
       app-name="puppyscheduler"
@@ -31,6 +32,11 @@
       _handlePeedEvent(e) {
         this.eventPath = '/events/' + Date.now().toString();
         this.eventData = {action: "peed"};
+      }
+
+      _handlePoopedEvent(e) {
+        this.eventPath = '/events/' + Date.now().toString();
+        this.eventData = {action: "pooped"};
       }
     }
 

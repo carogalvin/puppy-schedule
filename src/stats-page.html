@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="stats-page">
@@ -24,7 +25,15 @@
         app-name="puppyscheduler"
         path="/events"
         data="{{events}}"
+        limit-to-last=[[queryLimit]]
     </firebase-query>
+
+    <!--<app-indexeddb-mirror
+        session="1"
+        key="events"
+        data="{{events}}"
+        persisted-data="{{persistedEvents}}">
+    </app-indexeddb-mirror>-->
 
     <div class="card">
         Last time Peed: [[lastTimePeed]]
@@ -35,35 +44,45 @@
     class StatsPage extends Polymer.Element {
       static get is() { return 'stats-page'; }
 
-      /*static get observers() {
+      static get observers() {
           return [
-            'dataChanged(events.*)'
+            'dataChanged(events.splices)'
           ]
-      }*/
+      }
 
       static get properties() {
         return {
-          events: {
-              type: Object,
-              observer: 'dataChanged'
-          },
-          lastTimePeed: String
+          events: Object,
+          lastTimePeed: String,
+          queryLimit: {
+              type: Number,
+              value: 10
+          }
         }
       }
 
-      dataChanged(newData, oldData) {
-          console.log('data changed');
-          console.log('newData is ');
-          console.log(newData);
-          console.log('oldData is ');
-          console.log(oldData);
-        this.lastTimePeed = this._findLastEvent("peed");
+      dataChanged(changeSet) {
+          var self = this;
+          if(changeSet) {
+              changeSet.indexSplices.forEach(function(s) {
+                  if(s.object.length < self.queryLimit) {
+                      return;
+                  } else {
+                      self.lastTimePeed = self._findLastEvent("peed", s.object);
+                  }
+              });
+          }
       }
 
-      _findLastEvent(eventName) {
-          console.log('finding last event, events are...');
-          console.log(this.events);
-          return 'abc';
+      _findLastEvent(eventName, eventList) {
+          var self = this;
+          for(var i = self.queryLimit - 1; i > 0; i--) {
+             if(eventList[i].action === eventName) {
+                 return self._formatDateReadable(eventList[i].$key);
+             }
+          }
+          console.log('error');
+          return '';
       }
 
       _formatDateReadable(ts) {
