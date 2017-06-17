@@ -14,12 +14,6 @@
       }
     </style>
 
-    <!--<firebase-document
-        id="doc2"
-        app-name="puppyscheduler"
-        path="/events"
-        data="{{events}}">
-    </firebase-document> -->
     <firebase-query
         id="query"
         app-name="puppyscheduler"
@@ -28,15 +22,11 @@
         limit-to-last=[[queryLimit]]
     </firebase-query>
 
-    <!--<app-indexeddb-mirror
-        session="1"
-        key="events"
-        data="{{events}}"
-        persisted-data="{{persistedEvents}}">
-    </app-indexeddb-mirror>-->
-
     <div class="card">
         Last time Peed: [[lastTimePeed]]
+    </div>
+    <div class="card">
+        Last time Pooped: [[lastTimePooped]]
     </div>
   </template>
 
@@ -54,6 +44,7 @@
         return {
           events: Object,
           lastTimePeed: String,
+          lastTimePooped: String,
           queryLimit: {
               type: Number,
               value: 10
@@ -69,6 +60,7 @@
                       return;
                   } else {
                       self.lastTimePeed = self._findLastEvent("peed", s.object);
+                      self.lastTimePooped = self._findLastEvent("pooped", s.object);
                   }
               });
           }

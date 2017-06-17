@@ -8,6 +8,7 @@
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 
@@ -36,6 +37,7 @@
       app-header {
         color: #fff;
         background-color: var(--app-primary-color);
+        height=200px;;
       }
 
       app-header paper-icon-button {
@@ -58,6 +60,17 @@
         color: black;
         font-weight: bold;
       }
+
+      #dogimage {
+          height: 100px;
+          width: 100px;
+          border-radius: 10px;
+          background-color: inherit;
+      }
+
+      app-toolbar {
+          height=50%;
+      }
     </style>
     <app-location route="{{route}}"></app-location>
     <app-route
@@ -70,9 +83,9 @@
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
       <app-drawer id="drawer" slot="drawer">
-        <app-toolbar>Menu</app-toolbar>
+        <app-toolbar class="tall">Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="allEvents" href="[[rootPath]]allEvents">All Events</a>
+          <a name="allEvents" href="[[rootPath]]allEvents">All Events</a>
           <a name="dataEntry" href="[[rootPath]]dataEntry">Data Entry</a>
           <a name="statsPage" href="[[rootPath]]statsPage">Stats Page</a>
         </iron-selector>
@@ -84,7 +97,8 @@
         <app-header slot="header" condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-            <div main-title>My App</div>
+            <paper-icon-button src="../images/dog.png" id=dogimage></paper-icon-button>
+            <div main-title>Archie</div>
           </app-toolbar>
         </app-header>
 
